@@ -58,6 +58,12 @@ const countries = [
 ]
 
 const countriesBox = document.getElementById('countries')
+const themeBtn = document.getElementById('themeBtn')
+const regions = document.querySelectorAll('#dropdown li')
+const filterBtn = document.getElementById('filterBtn')
+const dropdown = document.getElementById('dropdown')
+const searchInput = document.getElementById('searchInput')
+
 
 function renderCountries(data) {
 	countriesBox.innerHTML = ''
@@ -96,13 +102,12 @@ ${country.capital}
 
 renderCountries(countries)
 
-const themeBtn = document.getElementById('themeBtn')
+
 
 themeBtn.addEventListener('click', () => {
 	document.body.classList.toggle('dark')
 })
 
-const searchInput = document.getElementById('searchInput')
 
 searchInput.addEventListener('input', () => {
 	const value = searchInput.value.toLowerCase()
@@ -114,9 +119,27 @@ searchInput.addEventListener('input', () => {
 	renderCountries(filtered)
 })
 
-const filterBtn = document.getElementById('filterBtn')
-const dropdown = document.getElementById('dropdown')
 
 filterBtn.addEventListener('click', () => {
 	dropdown.classList.toggle('show')
+})
+
+
+
+regions.forEach(region => {
+	region.addEventListener('click', () => {
+		const selectedRegion = region.textContent
+
+		if (selectedRegion === 'All') {
+			renderCountries(countries)
+		} else {
+			const filteredCountries = countries.filter(
+				country => country.region === selectedRegion,
+			)
+
+			renderCountries(filteredCountries)
+		}
+
+		dropdown.classList.remove('show')
+	})
 })
